@@ -1,3 +1,10 @@
+# StackOverflow xml file
+*.xml
+
+# Database related files
+*.db
+*.db-journal
+
 # PyCharm configuration files
 .idea
 
