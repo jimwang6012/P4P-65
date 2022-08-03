@@ -35,7 +35,7 @@ def select_posts_with_more_than_20_answers(connection):
             "ParentId":row[2],
             "Score":row[5],
             "ViewCount":row[6],
-            "Body":row[7].replace("\n", " "),
+            "Body":row[7],
             "OwnerUserId":row[8],
             "LastEditorUserId":row[10],
             "LastActivityDate":datetime.strftime(datetime.fromisoformat(row[13]), "%b %d, %Y"),
@@ -57,6 +57,7 @@ def main():
     database = "../PostParser/so-posts.db"
 
     connection = create_connection(database)
+    # id_matching_connection = create_connection()
     with connection:
         print("Creating JSONs from posts with more than 20 answers ...")
         select_posts_with_more_than_20_answers(connection)

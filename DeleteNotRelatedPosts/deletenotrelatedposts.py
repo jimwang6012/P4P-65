@@ -23,12 +23,14 @@ def delete_questions_without_java_tag(connection):
 
 def delete_answers_without_code(connection):
     cursor = connection.cursor()
-    cursor.execute("DELETE FROM posts WHERE PostTypeId = 2 AND Body NOT LIKE '%<pre><code>%'")
+    cursor.execute("DELETE FROM posts WHERE PostTypeId = 2 AND Body NOT LIKE '%<pre><code>%' "
+                   "AND Body NOT LIKE '%<pre class=\"lang-java prettyprint-override\"><code>%'")
 
 
 def delete_answers_not_related_to_java_questions(connection):
     cursor = connection.cursor()
-    cursor.execute("DELETE FROM posts WHERE PostTypeId = 2 AND ParentId NOT IN (SELECT Id FROM posts WHERE PostTypeId = 1)")
+    cursor.execute("DELETE FROM posts WHERE PostTypeId = 2 "
+                   "AND ParentId NOT IN (SELECT Id FROM posts WHERE PostTypeId = 1)")
 
 
 def main():
