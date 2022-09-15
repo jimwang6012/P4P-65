@@ -14,7 +14,7 @@ def main():
     for file in arr:
         try:
             print('processing ' + file)
-            p = subprocess.Popen(['java', '-jar', 'csnippex.jar', './input-posts/' + file, './ser', './maven-jars', './jdks/jdk-17.0.2.jdk', './tmp', './output-csnippex'], start_new_session=True)
+            p = subprocess.Popen(['java', '-jar', 'csnippex.jar', './input-posts/' + file, './ser', './maven-jars', './jdks/jdk-17.0.2.jdk', './tmp', './output-csnippex'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
             p.wait(timeout=5)
         except subprocess.CalledProcessError as e:
             print(e)
@@ -24,17 +24,17 @@ def main():
     print('finished generating csnippex output')
 
     # run apizator on output of csnippex with 10 seconds timeout per post
-    arr = os.listdir('output-csnippex')
-    for file in arr:
-        try:
-            print('processing ' + file)
-            subprocess.run('java -jar apizator.jar ./output-csnippex/' + file +
-                           ' ./output-apizator ./maven-jars', check=True, timeout=5, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        except subprocess.CalledProcessError as e:
-            print(e)
-        except subprocess.TimeoutExpired:
-            print(file + ' timed out')
-    print('finished generating apizator output')
+    # arr = os.listdir('output-csnippex')
+    # for file in arr:
+    #     try:
+    #         print('processing ' + file)
+    #         subprocess.run('java -jar apizator.jar ./output-csnippex/' + file +
+    #                        ' ./output-apizator ./maven-jars', check=True, timeout=5, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    #     except subprocess.CalledProcessError as e:
+    #         print(e)
+    #     except subprocess.TimeoutExpired:
+    #         print(file + ' timed out')
+    # print('finished generating apizator output')
 
     # convert the output of apizator into java classes and then compile the classes
     # arr = os.listdir('output-apizator')
