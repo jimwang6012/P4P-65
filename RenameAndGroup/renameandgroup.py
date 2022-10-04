@@ -13,6 +13,7 @@ def main():
         num += 1
         try:
             print('Renaming ' + file)
+            os.makedirs('../csnippex-apizator/hi/' + str(num), exist_ok=True)
             p = subprocess.Popen(['java', '-jar', 'rename-class.jar', '../csnippex-apizator/output-apizator-java/' + file,
                                   '../csnippex-apizator/output-csnippex-java/' + file, '../csnippex-apizator/hi/' + str(num) + '/'], start_new_session=True)
             p.wait(timeout=5)
