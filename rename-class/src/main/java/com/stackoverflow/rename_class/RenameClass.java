@@ -71,7 +71,7 @@ public class RenameClass {
                         String cuString = cuAPIZATOR.toString();
                         String newCUString = cuString.replace(classNameToChange, "SOClass");
                         try {
-                            FileWriter fileWriter = new FileWriter("SOClass.java");
+                            FileWriter fileWriter = new FileWriter(args[2] + "/SOClass.java");
                             fileWriter.write(newCUString);
                             fileWriter.close();
                             System.out.println("File created successfully.");
