@@ -42,7 +42,10 @@ def main():
     arr = os.listdir('output-csnippex')
     for file in arr:
         f = open("output-csnippex/" + file, "r")
-        data = json.load(f)
+        try:
+            data = json.load(f)
+        except UnicodeDecodeError:
+            print("Cannot decode character - skipping")
         # create .java files in new directory
         os.makedirs('./output-csnippex-java', exist_ok=True)
         f = open('./output-csnippex-java/' +
