@@ -23,20 +23,20 @@ def main():
     #         os.killpg(os.getpgid(p.pid), signal.SIGTERM)
     # print('Finished generating csnippex output')
 
-    # run apizator on output of csnippex with 5 seconds timeout per post
-    arr = os.listdir('output-csnippex')
-    for file in arr:
-        try:
-            print('Processing ' + file)
-            p = subprocess.Popen(['java', '-jar', 'apizator.jar', './output-csnippex/' + file, './output-apizator', './maven-jars'],
-                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
-            p.wait(timeout=5)
-        except subprocess.CalledProcessError as e:
-            print(e)
-        except subprocess.TimeoutExpired:
-            print(file + ' timed out')
-            os.killpg(os.getpgid(p.pid), signal.SIGTERM)
-    print('Finished generating apizator output')
+    # # run apizator on output of csnippex with 5 seconds timeout per post
+    # arr = os.listdir('output-csnippex')
+    # for file in arr:
+    #     try:
+    #         print('Processing ' + file)
+    #         p = subprocess.Popen(['java', '-jar', 'apizator.jar', './output-csnippex/' + file, './output-apizator', './maven-jars'],
+    #                              stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    #         p.wait(timeout=5)
+    #     except subprocess.CalledProcessError as e:
+    #         print(e)
+    #     except subprocess.TimeoutExpired:
+    #         print(file + ' timed out')
+    #         os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+    # print('Finished generating apizator output')
 
     # convert the output of csnippex into java classes
     arr = os.listdir('output-csnippex')
@@ -46,7 +46,7 @@ def main():
         # create .java files in new directory
         os.makedirs('./output-csnippex-java', exist_ok=True)
         f = open('./output-csnippex-java/' +
-                 data['postId'] + '.java', "w")
+                 str(data['postId']) + '.java', "w")
         f.write(
             data['body'])
         f.close()
@@ -60,7 +60,7 @@ def main():
         # create .java files in new directory
         os.makedirs('./output-apizator-java', exist_ok=True)
         f = open('./output-apizator-java/' +
-                 data['postId'] + '.java', "w")
+                 str(data['postId']) + '.java', "w")
         f.write(
             data['code'])
         f.close()
