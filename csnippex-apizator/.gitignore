@@ -4,6 +4,7 @@ output-csnippex/
 output-apizator/
 output-csnippex-java/
 output-apizator-java/
+output-rename/
 
 # PyCharm configuration files
 .idea
