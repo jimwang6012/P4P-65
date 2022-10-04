@@ -41,32 +41,34 @@ def main():
     # convert the output of csnippex into java classes
     arr = os.listdir('output-csnippex')
     for file in arr:
-        f = open("output-csnippex/" + file, "r")
-        try:
-            data = json.load(f)
-        except UnicodeDecodeError:
-            print("Cannot decode character - skipping")
-        # create .java files in new directory
-        os.makedirs('./output-csnippex-java', exist_ok=True)
-        f = open('./output-csnippex-java/' +
-                 str(data['postId']) + '.java', "w")
-        f.write(
-            data['body'])
-        f.close()
+        if file != "README.md":
+            f = open("output-csnippex/" + file, "r")
+            try:
+                data = json.load(f)
+            except UnicodeDecodeError:
+                print("Cannot decode character - skipping")
+            # create .java files in new directory
+            os.makedirs('./output-csnippex-java', exist_ok=True)
+            f = open('./output-csnippex-java/' +
+                     str(data['postId']) + '.java', "w")
+            f.write(
+                data['body'])
+            f.close()
     print('Finished converting csnippex output to java files')
 
     # convert the output of apizator into java classes
     arr = os.listdir('output-apizator')
     for file in arr:
-        f = open("output-apizator/" + file, "r")
-        data = json.load(f)
-        # create .java files in new directory
-        os.makedirs('./output-apizator-java', exist_ok=True)
-        f = open('./output-apizator-java/' +
-                 str(data['postId']) + '.java', "w")
-        f.write(
-            data['code'])
-        f.close()
+        if file != "README.md":
+            f = open("output-apizator/" + file, "r")
+            data = json.load(f)
+            # create .java files in new directory
+            os.makedirs('./output-apizator-java', exist_ok=True)
+            f = open('./output-apizator-java/' +
+                     str(data['postId']) + '.java', "w")
+            f.write(
+                data['code'])
+            f.close()
     print('Finished converting apizator output to java files')
     #     try:
     #         # compile the .java files
