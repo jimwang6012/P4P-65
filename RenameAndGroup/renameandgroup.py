@@ -38,13 +38,14 @@ def main():
     arr = os.listdir('../csnippex-apizator/output-apizator-java')
     for file in arr:
         try:
-            print('Renaming ' + file)
-            post_id = file.split('.')[0]
+            if file != "README.md":
+                print('Renaming ' + file)
+                post_id = file.split('.')[0]
 
-            os.makedirs(f'../csnippex-apizator/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api', exist_ok=True)
-            p = subprocess.Popen(['java', '-jar', 'rename-class.jar', '../csnippex-apizator/output-apizator-java/' + file,
-                                  '../csnippex-apizator/output-csnippex-java/' + file, f'../csnippex-apizator/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api/'], start_new_session=True)
-            p.wait(timeout=5)
+                os.makedirs(f'../csnippex-apizator/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api', exist_ok=True)
+                p = subprocess.Popen(['java', '-jar', 'rename-class.jar', '../csnippex-apizator/output-apizator-java/' + file,
+                                      '../csnippex-apizator/output-csnippex-java/' + file, f'../csnippex-apizator/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api/'], start_new_session=True)
+                p.wait(timeout=5)
         except subprocess.CalledProcessError as e:
             print(e)
         except subprocess.TimeoutExpired:
