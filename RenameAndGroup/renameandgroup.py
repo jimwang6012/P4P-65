@@ -42,9 +42,10 @@ def main():
                 print('Renaming ' + file)
                 post_id = file.split('.')[0]
 
-                os.makedirs(f'../csnippex-apizator/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api', exist_ok=True)
+                os.makedirs(
+                    f'../GenerateTest/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api', exist_ok=True)
                 p = subprocess.Popen(['java', '-jar', 'rename-class.jar', '../csnippex-apizator/output-apizator-java/' + file,
-                                      '../csnippex-apizator/output-csnippex-java/' + file, f'../csnippex-apizator/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api/'], start_new_session=True)
+                                      '../csnippex-apizator/output-csnippex-java/' + file, f'../GenerateTest/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api/'], start_new_session=True)
                 p.wait(timeout=5)
         except subprocess.CalledProcessError as e:
             print(e)
