@@ -1,4 +1,4 @@
-package com.stackoverflow.rename_class;
+package com.stackoverflow.group_class;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.utils.SourceRoot;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,8 +19,14 @@ import java.util.Comparator;
 /**
  * Rename generated classes using JavaParser.
  */
-public class RenameClass {
+public class GroupClass {
     public static void main(String[] args) {
+        File dir = new File("../GenerateTest/output-rename/");
+
+        for (File file : dir.listFiles()) {
+
+        }
+
         Path path = Paths.get("./");
         SourceRoot sourceRootCSNIPPEX = new SourceRoot(path);
         SourceRoot sourceRootAPIZATOR = new SourceRoot(path);
@@ -28,8 +35,6 @@ public class RenameClass {
         CompilationUnit cuAPIZATOR = sourceRootAPIZATOR.parse("", args[0]);
 
         ArrayList<String> methodNames = new ArrayList<>();
-        ArrayList<String> apizatorMethods = new ArrayList<>();
-        boolean onlyOneMethod = false;
 
         cuCSNIPPEX.findAll(MethodDeclaration.class).stream()
                 .forEach(m -> {
@@ -38,18 +43,7 @@ public class RenameClass {
 
         cuAPIZATOR.findAll(MethodDeclaration.class).stream()
                 .forEach(m -> {
-                    apizatorMethods.add(m.getNameAsString());
-                });
-
-        if (methodNames.equals(apizatorMethods)) {
-            onlyOneMethod = true;
-        }
-
-        boolean finalOnlyOneMethod = onlyOneMethod;
-
-        cuAPIZATOR.findAll(MethodDeclaration.class).stream()
-                .forEach(m -> {
-                    if (!methodNames.contains(m.getNameAsString()) || (finalOnlyOneMethod && methodNames.get(0).equals(m.getNameAsString()))) {
+                    if (!methodNames.contains(m.getNameAsString())) {
                         m.setName("soEntry");
                         NodeList<Parameter> methodParameters = new NodeList<>();
                         m.getParameters().forEach(p -> {
