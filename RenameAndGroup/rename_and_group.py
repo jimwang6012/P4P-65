@@ -1,3 +1,4 @@
+import shutil
 import signal
 import sqlite3
 import subprocess
@@ -54,21 +55,39 @@ def main():
             os.killpg(os.getpgid(p.pid), signal.SIGTERM)
     print('Finished renaming files')
 
-    # run group-class on output-rename files with 5 seconds timeout
+    # purge empty answers
     arr = os.listdir('../GenerateTest/output-rename')
     for file in arr:
         try:
             if file != "README.md":
-                print('Grouping answers in ' + file)
+                print('Purging empty answers in ' + file)
 
-                p = subprocess.Popen(['java', '-jar', 'group-class.jar', file], start_new_session=True)
-                p.wait(timeout=5)
-        except subprocess.CalledProcessError as e:
+                path = '../GenerateTest/output-rename/' + file
+                answers = os.listdir(path)
+                for answer in answers:
+                    if answer != "groups":
+                        if not os.path.exists(path + "/" + answer + "/com/stackoverflow/api/SOClass.java"):
+                            print("Removing empty answer " + answer + " from " + file)
+                            shutil.rmtree(path + "/" + answer)
+        except OSError as e:
             print(e)
-        except subprocess.TimeoutExpired:
-            print(file + ' grouping failed')
-            os.killpg(os.getpgid(p.pid), signal.SIGTERM)
-    print('Finished grouping answers')
+    print('Finished purging empty answers')
+
+    # # run group-class on output-rename files with 5 seconds timeout
+    # arr = os.listdir('../GenerateTest/output-rename')
+    # for file in arr:
+    #     try:
+    #         if file != "README.md":
+    #             print('Grouping answers in ' + file)
+    #
+    #             p = subprocess.Popen(['java', '-jar', 'group-class.jar', '../GenerateTest/output-rename/' + file], start_new_session=True)
+    #             p.wait(timeout=5)
+    #     except subprocess.CalledProcessError as e:
+    #         print(e)
+    #     except subprocess.TimeoutExpired:
+    #         print(file + ' grouping failed')
+    #         os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+    # print('Finished grouping answers')
 
 
 if __name__ == '__main__':
