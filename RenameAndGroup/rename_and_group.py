@@ -44,9 +44,9 @@ def main():
                 post_id = file.split('.')[0]
 
                 os.makedirs(
-                    f'../GenerateTest/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api', exist_ok=True)
+                    f'../GenerateAndRunTests/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api', exist_ok=True)
                 p = subprocess.Popen(['java', '-jar', 'rename-class.jar', '../csnippex-apizator/output-apizator-java/' + file,
-                                      '../csnippex-apizator/output-csnippex-java/' + file, f'../GenerateTest/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api/'], start_new_session=True)
+                                      '../csnippex-apizator/output-csnippex-java/' + file, f'../GenerateAndRunTests/output-rename/{str(dictionary[int(post_id)])}/{post_id}/com/stackoverflow/api/'], start_new_session=True)
                 p.wait(timeout=5)
         except subprocess.CalledProcessError as e:
             print(e)
@@ -56,11 +56,11 @@ def main():
     print('Finished renaming files')
 
     # purge empty answers
-    arr = os.listdir('../GenerateTest/output-rename')
+    arr = os.listdir('../GenerateAndRunTests/output-rename')
     for file in arr:
         try:
             if file != "README.md":
-                path = '../GenerateTest/output-rename/' + file
+                path = '../GenerateAndRunTests/output-rename/' + file
                 answers = os.listdir(path)
                 for answer in answers:
                     if answer != "groups":
@@ -72,13 +72,13 @@ def main():
     print('Finished purging empty answers')
 
     # run group-class on output-rename files with 5 seconds timeout
-    arr = os.listdir('../GenerateTest/output-rename')
+    arr = os.listdir('../GenerateAndRunTests/output-rename')
     for file in arr:
         try:
             if file != "README.md":
                 print('Grouping answers in ' + file)
 
-                p = subprocess.Popen(['java', '-jar', 'group-class.jar', '../GenerateTest/output-rename/' + file], start_new_session=True)
+                p = subprocess.Popen(['java', '-jar', 'group-class.jar', '../GenerateAndRunTests/output-rename/' + file], start_new_session=True)
                 p.wait(timeout=5)
         except subprocess.CalledProcessError as e:
             print(e)
