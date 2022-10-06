@@ -8,19 +8,21 @@ def main():
 
     # compile the .java files and create tests
     arr = os.listdir('./output-rename')
- 
+
     for file1 in arr:  # find classpath for file
 
         if file1 != "README.md":
             arr = os.listdir('./output-rename/' + file1 + '/groups')
             for file2 in arr:
 
-                arr = os.listdir('./output-rename/' + file1 + '/groups/' + file2)
+                arr = os.listdir('./output-rename/' +
+                                 file1 + '/groups/' + file2)
                 if (len(arr) > 2):
                     for file3 in arr:
 
                         libs = ''
-                        arr = os.listdir('../csnippex-apizator/output-apizator/')
+                        arr = os.listdir(
+                            '../csnippex-apizator/output-apizator/')
                         for file4 in arr:
 
                             if (file3 == file4.split('.', 1)[0]):
@@ -37,7 +39,7 @@ def main():
                             subprocess.call(
                                 'java -classpath "./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
                                 '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs + '" randoop.main.Main gentests --testclass="com.stackoverflow.api.SOClass"  --junit-output-dir="./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                '/com/stackoverflow/api/" --regression-test-basename=Test' + file3 + ' --time-limit=30', shell=True)
+                                '/com/stackoverflow/api/" --regression-test-basename=Test' + file3 + ' --time-limit=15', shell=True, timeout=15)
 
                         except subprocess.CalledProcessError as e:
                             print(e)
