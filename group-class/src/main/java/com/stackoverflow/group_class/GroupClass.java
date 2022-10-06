@@ -32,16 +32,20 @@ public class GroupClass {
                             if (m.getNameAsString().equals("soEntry")) {
                                 ArrayList<String> parameterTypes = new ArrayList<>();
                                 ArrayList<String> parameterNames = new ArrayList<>();
+                                ArrayList<String> returnTypes = new ArrayList<>();
 
                                 m.getParameters().forEach(p -> {
                                     parameterTypes.add(p.getTypeAsString());
                                     parameterNames.add(p.getNameAsString());
                                 });
 
+                                returnTypes.add(m.getTypeAsString());
+
                                 if (classGroups.size() == 0) {
                                     ArrayList<String> classGroup = new ArrayList<>();
                                     classGroup.add(parameterTypes.toString());
                                     classGroup.add(parameterNames.toString());
+                                    classGroup.add(returnTypes.toString());
                                     ArrayList<String> classesInGroup = new ArrayList<>();
                                     classesInGroup.add(file.toString());
                                     classGroups.put(classGroup, classesInGroup);
@@ -51,7 +55,8 @@ public class GroupClass {
                                     for (int i = 0; i < classGroupKeys.size(); i++) {
                                         String typeString = classGroupKeys.get(i).get(0);
                                         String nameString = classGroupKeys.get(i).get(1);
-                                        if (typeString.equals(parameterTypes.toString())) {
+                                        String returnType = classGroupKeys.get(i).get(2);
+                                        if (typeString.equals(parameterTypes.toString()) && returnType.equals(returnTypes.toString())) {
                                             if (nameString.equals(parameterNames.toString())) {
                                                 classGroups.get(classGroupKeys.get(i)).add(file.toString());
                                                 isFound = true;
@@ -79,6 +84,7 @@ public class GroupClass {
                                         ArrayList<String> classGroup = new ArrayList<>();
                                         classGroup.add(parameterTypes.toString());
                                         classGroup.add(parameterNames.toString());
+                                        classGroup.add(returnTypes.toString());
                                         ArrayList<String> classesInGroup = new ArrayList<>();
                                         classesInGroup.add(file.toString());
                                         classGroups.put(classGroup, classesInGroup);
