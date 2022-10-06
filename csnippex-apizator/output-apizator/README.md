@@ -1,1 +1,1 @@
-Store apizator output
+Store output of apizator
