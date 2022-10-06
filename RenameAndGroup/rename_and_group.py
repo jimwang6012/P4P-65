@@ -60,8 +60,6 @@ def main():
     for file in arr:
         try:
             if file != "README.md":
-                print('Purging empty answers in ' + file)
-
                 path = '../GenerateTest/output-rename/' + file
                 answers = os.listdir(path)
                 for answer in answers:
