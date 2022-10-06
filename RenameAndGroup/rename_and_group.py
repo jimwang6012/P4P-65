@@ -73,21 +73,21 @@ def main():
             print(e)
     print('Finished purging empty answers')
 
-    # # run group-class on output-rename files with 5 seconds timeout
-    # arr = os.listdir('../GenerateTest/output-rename')
-    # for file in arr:
-    #     try:
-    #         if file != "README.md":
-    #             print('Grouping answers in ' + file)
-    #
-    #             p = subprocess.Popen(['java', '-jar', 'group-class.jar', '../GenerateTest/output-rename/' + file], start_new_session=True)
-    #             p.wait(timeout=5)
-    #     except subprocess.CalledProcessError as e:
-    #         print(e)
-    #     except subprocess.TimeoutExpired:
-    #         print(file + ' grouping failed')
-    #         os.killpg(os.getpgid(p.pid), signal.SIGTERM)
-    # print('Finished grouping answers')
+    # run group-class on output-rename files with 5 seconds timeout
+    arr = os.listdir('../GenerateTest/output-rename')
+    for file in arr:
+        try:
+            if file != "README.md":
+                print('Grouping answers in ' + file)
+
+                p = subprocess.Popen(['java', '-jar', 'group-class.jar', '../GenerateTest/output-rename/' + file], start_new_session=True)
+                p.wait(timeout=5)
+        except subprocess.CalledProcessError as e:
+            print(e)
+        except subprocess.TimeoutExpired:
+            print(file + ' grouping failed')
+            os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+    print('Finished grouping answers')
 
 
 if __name__ == '__main__':
