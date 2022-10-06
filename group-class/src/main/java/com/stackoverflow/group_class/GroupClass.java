@@ -1,91 +1,102 @@
 package com.stackoverflow.group_class;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.utils.SourceRoot;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * Rename generated classes using JavaParser.
  */
 public class GroupClass {
-    public static void main(String[] args) {
-        File dir = new File("../GenerateTest/output-rename/");
+    public static void main(String[] args) throws IOException {
+        File dir = new File(args[0]);
+
+        LinkedHashMap<ArrayList<String>, ArrayList<String>> classGroups = new LinkedHashMap<>();
 
         for (File file : dir.listFiles()) {
+            if (!file.equals(new File(dir + "/groups"))) {
+                Path path = Paths.get(file + "/com/stackoverflow/api/");
 
-        }
+                SourceRoot sourceRoot = new SourceRoot(path);
+                CompilationUnit cu = sourceRoot.parse("", "SOClass.java");
 
-        Path path = Paths.get("./");
-        SourceRoot sourceRootCSNIPPEX = new SourceRoot(path);
-        SourceRoot sourceRootAPIZATOR = new SourceRoot(path);
+                cu.findAll(MethodDeclaration.class).stream()
+                        .forEach(m -> {
+                            if (m.getNameAsString().equals("soEntry")) {
+                                ArrayList<String> parameterTypes = new ArrayList<>();
+                                ArrayList<String> parameterNames = new ArrayList<>();
 
-        CompilationUnit cuCSNIPPEX = sourceRootCSNIPPEX.parse("", args[1]);
-        CompilationUnit cuAPIZATOR = sourceRootAPIZATOR.parse("", args[0]);
+                                m.getParameters().forEach(p -> {
+                                    parameterTypes.add(p.getTypeAsString());
+                                    parameterNames.add(p.getNameAsString());
+                                });
 
-        ArrayList<String> methodNames = new ArrayList<>();
+                                if (classGroups.size() == 0) {
+                                    ArrayList<String> classGroup = new ArrayList<>();
+                                    classGroup.add(parameterTypes.toString());
+                                    classGroup.add(parameterNames.toString());
+                                    ArrayList<String> classesInGroup = new ArrayList<>();
+                                    classesInGroup.add(file.toString());
+                                    classGroups.put(classGroup, classesInGroup);
+                                } else {
+                                    ArrayList<ArrayList<String>> classGroupKeys = new ArrayList<>(classGroups.keySet());
+                                    boolean isFound = false;
+                                    for (int i = 0; i < classGroupKeys.size(); i++) {
+                                        String typeString = classGroupKeys.get(i).get(0);
+                                        String nameString = classGroupKeys.get(i).get(1);
+                                        if (typeString.equals(parameterTypes.toString())) {
+                                            if (nameString.equals(parameterNames.toString())) {
+                                                classGroups.get(classGroupKeys.get(i)).add(file.toString());
+                                                isFound = true;
+                                            } else {
+                                                boolean isSameGroup = true;
+                                                ArrayList<String> types = new ArrayList<>(Arrays.asList(typeString.substring(1, typeString.length() - 1).split(", ")));
+                                                ArrayList<String> names = new ArrayList<>(Arrays.asList(nameString.substring(1, nameString.length() - 1).split(", ")));
 
-        cuCSNIPPEX.findAll(MethodDeclaration.class).stream()
-                .forEach(m -> {
-                    methodNames.add(m.getNameAsString());
-                });
+                                                for (int j = 1; j < types.size(); j++) {
+                                                    if (types.get(j).equals(types.get(j - 1))) {
+                                                        if (!names.get(j).equals(names.get(j - 1))) {
+                                                            isSameGroup = false;
+                                                        }
+                                                    }
+                                                }
 
-        cuAPIZATOR.findAll(MethodDeclaration.class).stream()
-                .forEach(m -> {
-                    if (!methodNames.contains(m.getNameAsString())) {
-                        m.setName("soEntry");
-                        NodeList<Parameter> methodParameters = new NodeList<>();
-                        m.getParameters().forEach(p -> {
-                            methodParameters.add(p);
-                        });
-                        Collections.sort(methodParameters, new Comparator<Parameter>() {
-                            @Override
-                            public int compare(Parameter p1, Parameter p2) {
-                                String p1Type = p1.getTypeAsString();
-                                String p2Type = p2.getTypeAsString();
-                                int typeCompare = p1Type.compareTo(p2Type);
-
-                                if (typeCompare != 0) {
-                                    return typeCompare;
+                                                if (isSameGroup) {
+                                                    classGroups.get(classGroupKeys.get(i)).add(file.toString());
+                                                    isFound = true;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if (!isFound) {
+                                        ArrayList<String> classGroup = new ArrayList<>();
+                                        classGroup.add(parameterTypes.toString());
+                                        classGroup.add(parameterNames.toString());
+                                        ArrayList<String> classesInGroup = new ArrayList<>();
+                                        classesInGroup.add(file.toString());
+                                        classGroups.put(classGroup, classesInGroup);
+                                    }
                                 }
-
-                                String p1Name = p1.getNameAsString();
-                                String p2Name = p2.getNameAsString();
-                                return p1Name.compareTo(p2Name);
                             }
                         });
-                        m.setParameters(methodParameters);
-                    }
-                });
+            }
+        }
 
-        cuAPIZATOR.findAll(ClassOrInterfaceDeclaration.class).stream()
-                .forEach(c -> {
-                    if (c.getMethodsByName("soEntry").size() != 0) {
-
-                        String classNameToChange = c.getNameAsString();
-                        c.setName("SOClass");
-                        String cuString = cuAPIZATOR.toString();
-                        String newCUString = cuString.replace(classNameToChange, "SOClass");
-                        try {
-                            FileWriter fileWriter = new FileWriter(args[2] + "/SOClass.java");
-                            fileWriter.write(newCUString);
-                            fileWriter.close();
-                            System.out.println("File created successfully.");
-                        } catch (IOException e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                });
+        int num = 1;
+        for (ArrayList<String> answerIds : classGroups.values()) {
+            File targetFile = new File(args[0] + "/groups/group-" + num);
+            targetFile.getParentFile().mkdirs();
+            for (String answerId : answerIds) {
+                FileUtils.copyDirectoryToDirectory(new File(answerId), targetFile);
+            }
+            num++;
+        }
     }
 }
