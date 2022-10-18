@@ -41,7 +41,7 @@ def main():
                                  '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs, 'randoop.main.Main', 'gentests',
                                  '--testclass=com.stackoverflow.api.SOClass',
                                  '--junit-output-dir=./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                 '/com/stackoverflow/api/"', '--regression-test-basename=Test' + file3,
+                                 '/com/stackoverflow/api/', '--regression-test-basename=Test' + file3,
                                  '--time-limit=15'],
                                 start_new_session=True)
                             p.wait(timeout=15)
