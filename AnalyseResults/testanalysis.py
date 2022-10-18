@@ -28,8 +28,9 @@ def main():
                             test_count = 0
                             results = []
                             try:
-                                with open('../GenerateAndRunTests/output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                      '/com/stackoverflow/api/' + file3 + 'TestResults.txt', 'r') as f:
+                                with open(
+                                        '../GenerateAndRunTests/output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
+                                        '/com/stackoverflow/api/' + file3 + 'TestResults.txt', 'r') as f:
                                     skip = False
                                     for line in f.readlines():
                                         if line.startswith('Test') and line.endswith('0.java\n'):
@@ -55,7 +56,8 @@ def main():
                                             confidence = passed / (passed + failed) * 100
                                             test_count += passed
                                             test_count += failed
-                                            results.append(f"P:{str(passed)} F:{str(failed)} {str(round(confidence, 2))}%")
+                                            results.append(
+                                                f"P:{str(passed)} F:{str(failed)} {str(round(confidence, 2))}%")
                             except FileNotFoundError as e:
                                 print(e)
                             if len(temp_test_order) > len(test_order):
@@ -79,8 +81,9 @@ def main():
                         print(tabulate(table_results, headers=header, tablefmt="fancy_grid"))
 
                     with open('../GenerateAndRunTests/output-rename/' +
-                                 file1 + '/groups/' + file2 + '/CorrectnessTable.txt', 'w') as outfile:
+                              file1 + '/groups/' + file2 + '/AnalysisTable.txt', 'w') as outfile:
                         outfile.writelines([title + '\n', tabulate(table_results, headers=header, tablefmt="grid")])
+
 
 if __name__ == '__main__':
     main()

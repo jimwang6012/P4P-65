@@ -1,5 +1,6 @@
 import os
 
+
 def main():
     # list all groups
     arr = os.listdir('./output-rename')
@@ -13,10 +14,10 @@ def main():
                 arr = os.listdir('./output-rename/' + file1 +
                                  '/groups/' + file2)
 
-                if (len(arr) > 2):
+                if len(arr) > 2:
                     print('./output-rename/' + file1 +
-                                 '/groups/' + file2)
-    
-    
+                          '/groups/' + file2)
+
+
 if __name__ == '__main__':
     main()
