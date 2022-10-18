@@ -86,8 +86,6 @@ def main():
                                         f = open(
                                             './output-rename/' + file1 + '/groups/' + file2 + '/' + placeholdername +
                                             '/com/stackoverflow/api/' + placeholdername + 'TestResults.txt', "a")
-                                        f.write(file4 + '\n')
-                                        f.flush()
                                         try:
                                             p = subprocess.Popen(['java', '-cp',
                                                                   './junit-4.13.2.jar:./hamcrest-core-1.3.jar'
@@ -98,6 +96,7 @@ def main():
                                                                   'org.junit.runner.JUnitCore',
                                                                   file4.rsplit(".", 1)[0]],
                                                                  start_new_session=True, stdout=f, stderr=f)
+                                            f.write(file4 + '\n')
                                             p.wait(timeout=15)
                                         except subprocess.CalledProcessError as e:
                                             print(e)
