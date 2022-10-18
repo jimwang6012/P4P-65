@@ -23,7 +23,7 @@ def main():
                     for temp_file in arr:
                         results_dict[temp_file] = []
                     for file3 in arr:
-                        if file3 != "CorrectnessTable.txt":
+                        if file3 != "AnalysisTable.txt":
                             temp_test_order = []
                             test_count = 0
                             results = []
