@@ -36,28 +36,23 @@ def main():
                             subprocess.run('javac ./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
                                            '/com/stackoverflow/api/SOClass.java', shell=True, check=True, timeout=10,
                                            capture_output=True)
-                            # p = subprocess.Popen(
-                            #     ['java', '-classpath', '"./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                            #      '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs + '"', 'randoop.main.Main', 'gentests',
-                            #      '--testclass=com.stackoverflow.api.SOClass',
-                            #      '--junit-output-dir=./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                            #      '/com/stackoverflow/api/', '--regression-test-basename=Test' + file3,
-                            #      '--time-limit=15'],
-                            #     shell=True, start_new_session=True)
-                            # p.wait(timeout=15)
-                            subprocess.call(
-                                'java -classpath "./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs + '" randoop.main.Main gentests --testclass="com.stackoverflow.api.SOClass"  --junit-output-dir="./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                '/com/stackoverflow/api/" --regression-test-basename=Test' + file3 + ' --time-limit=15',
-                                shell=True, timeout=15)
+                            p = subprocess.Popen(
+                                ['java', '-classpath', '"./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
+                                 '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs + '"', 'randoop.main.Main', 'gentests',
+                                 '--testclass=com.stackoverflow.api.SOClass',
+                                 '--junit-output-dir=./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
+                                 '/com/stackoverflow/api/', '--regression-test-basename=Test' + file3,
+                                 '--time-limit=15'],
+                                shell=True, start_new_session=True)
+                            p.wait(timeout=15)
                         except subprocess.CalledProcessError as e:
                             print(e)
+                        except subprocess.TimeoutExpired:
+                            print('timeout')
+                            f.write('test timed out \n')
+                            os.killpg(os.getpgid(p.pid), signal.SIGTERM)
                         except:
                             print("Something else went wrong")
-                        # except subprocess.TimeoutExpired:
-                        #     print('timeout')
-                        #     f.write('test timed out \n')
-                        #     os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
     # run the tests and record results
     arr = os.listdir('./output-rename')
