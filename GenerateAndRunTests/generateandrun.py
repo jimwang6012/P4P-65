@@ -43,7 +43,7 @@ def main():
                                  '--junit-output-dir=./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
                                  '/com/stackoverflow/api/', '--regression-test-basename=Test' + file3,
                                  '--time-limit=15'],
-                                start_new_session=True)
+                                shell=True, start_new_session=True)
                             p.wait(timeout=15)
                         except subprocess.CalledProcessError as e:
                             print(e)
