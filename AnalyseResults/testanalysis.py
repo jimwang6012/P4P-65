@@ -82,6 +82,5 @@ def main():
                                  file1 + '/groups/' + file2 + '/CorrectnessTable.txt', 'w') as outfile:
                         outfile.writelines([title + '\n', tabulate(table_results, headers=header, tablefmt="grid")])
 
-
 if __name__ == '__main__':
     main()
