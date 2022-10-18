@@ -33,10 +33,9 @@ def main():
 
                         try:
 
-                            subprocess.Popen(['javac', './output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                              '/com/stackoverflow/api/SOClass.java'],
-                                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                                             start_new_session=True)
+                            subprocess.run('javac ./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
+                                           '/com/stackoverflow/api/SOClass.java', shell=True, check=True, timeout=10,
+                                           capture_output=True)
                             p = subprocess.Popen(
                                 ['java', '-classpath', './output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
                                  '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs, 'randoop.main.Main', 'gentests',
