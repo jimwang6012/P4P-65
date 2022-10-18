@@ -71,8 +71,6 @@ def main():
             f.close()
     print('Finished converting apizator output to java files')
 
-    sys.exit()
-
 
 if __name__ == '__main__':
     main()
