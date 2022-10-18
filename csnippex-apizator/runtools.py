@@ -71,26 +71,6 @@ def main():
             f.close()
     print('Finished converting apizator output to java files')
 
-    #     try:
-    #         # compile the .java files
-    #         subprocess.run("javac ./com/stackoverflow/api/" +
-    #                        data['className'] + '.java', shell=True, check=True, timeout=10, capture_output=True) # Add dependencies to class path
-    #         # store the compiled classes to be tested
-    #         f = open('classlist.txt', "a")
-    #         f.write('com.stackoverflow.api.' + data['className'] + '\n')
-    #         f.close()
-    #         print('compiled ' + data['className'])
-    #     except subprocess.CalledProcessError as e:
-    #         print(e)
-    # print('finished compiling java files')
-    #
-    # # create directory to store generated tests
-    # os.makedirs('./test', exist_ok=True)
-    # # run randoop on the generated class files
-    # subprocess.call(
-    #     'java -classpath "./:randoop-all-4.3.0.jar" randoop.main.Main gentests --classlist="classlist.txt" --junit-output-dir="./test" --time-limit=30', shell=True)
-    # print('finished generating randoop tests')
-
     sys.exit()
 
 
