@@ -2,7 +2,7 @@ import os
 import os.path
 import subprocess
 import json
-
+import signal
 
 def main():
 
@@ -31,20 +31,25 @@ def main():
                                     '../csnippex-apizator/output-apizator/' + file4, "r")
                                 data = json.load(f)
                                 libs = data['classPath']
-
+                            
+                            
                         try:
-
-                            subprocess.run('javac ./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                           '/com/stackoverflow/api/SOClass.java', shell=True, check=True, timeout=10, capture_output=True)
-                            subprocess.call(
-                                'java -classpath "./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs + '" randoop.main.Main gentests --testclass="com.stackoverflow.api.SOClass"  --junit-output-dir="./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
-                                '/com/stackoverflow/api/" --regression-test-basename=Test' + file3 + ' --time-limit=15', shell=True, timeout=15)
-
+                     
+                          
+                            subprocess.Popen(['javac', './output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
+                                           '/com/stackoverflow/api/SOClass.java'],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+                            p = subprocess.Popen(['java', '-classpath', './output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
+                                '/:./randoop-all-4.3.0.jar:./maven-jars/jars/' + libs, 'randoop.main.Main', 'gentests', '--testclass=com.stackoverflow.api.SOClass', '--junit-output-dir="./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
+                                '/com/stackoverflow/api/"', '--regression-test-basename=Test' + file3, '--time-limit=15'],
+                 start_new_session=True)
+                            p.wait(timeout=15)
                         except subprocess.CalledProcessError as e:
                             print(e)
-                        except:
-                            print("Something else went wrong")
+                        except subprocess.TimeoutExpired:
+                            print('timeout')
+                            f.write('test timed out \n')
+                            os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
     # run the tests and record results
     arr = os.listdir('./output-rename')
@@ -78,18 +83,27 @@ def main():
 
                                         f = open('./output-rename/' + file1 + '/groups/' + file2 + '/' + placeholdername +
                                                  '/com/stackoverflow/api/' + placeholdername + 'TestResults.txt', "a")
-                                        with subprocess.Popen('java -cp "./junit-4.13.2.jar:./hamcrest-core-1.3.jar:./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 + '/com/stackoverflow/api:./output-rename/' + file1 + '/groups/' + file2 + '/' + placeholdername +
-                                                              '" org.junit.runner.JUnitCore ' + file4.rsplit(".", 1)[0], stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as process:
-                                            f.write(file4 + '\n')
-                                            for line in process.stdout:
-                                                print(line.decode('utf8'))
-                                                f.write(line.decode(
-                                                        'utf8') + '\n')
+                                        try:
+                                            p = subprocess.Popen(['java', '-cp', './junit-4.13.2.jar:./hamcrest-core-1.3.jar:./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 + '/com/stackoverflow/api:./output-rename/' + file1 + '/groups/' + file2 + '/' + placeholdername, 'org.junit.runner.JUnitCore', file4.rsplit(".", 1)[0]],
+                                    start_new_session=True, stdout=f, stderr=f) 
+                                            p.wait(timeout=15)
+                                                
+                           
+                                          
+                                        except subprocess.CalledProcessError as e:
+                                            print(e)
+                                        except subprocess.TimeoutExpired:
+                                            print('timeout')
+                                            f.write('test timed out \n')
+                                            os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
                                         f.close()
 
                                 except:
                                     print("Something else went wrong")
+                                    
+                                    
+
 
     # run the tests and record results
     arr = os.listdir('./output-rename')
@@ -104,8 +118,6 @@ def main():
                                  '/groups/' + file2)
 
                 if (len(arr) > 2):
-                    arr2 = os.listdir('./output-rename/' + file1 +
-                                      '/groups/' + file2)
 
                     for file3 in arr:
 
@@ -115,20 +127,21 @@ def main():
                             if (file4.startswith('SOClass') and file4.endswith('.java')):
 
                                 try:
+                                    print(file3)
                                     f = open('./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
                                              '/com/stackoverflow/api/' + file3 + 'StaticAnalysis.txt', "a")
-                                    with subprocess.Popen(r'.\bin\pmd.bat -d ./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 + '/com/stackoverflow/api/' + file4 +
-                                                          ' -f text -R rulesets/java/quickstart.xml', stdout=subprocess.PIPE, stderr=subprocess.STDOUT) as process:
-                                        f.write(file3 + '\n')
-                                        for line in process.stdout:
-                                            print(line.decode('utf8'))
-                                            f.write(line.decode(
-                                                'utf8') + '\n')
+                                    p = subprocess.Popen(['./bin/run.sh','pmd', '-d', './output-rename/' + file1 + '/groups/' + file2 + '/' + file3 + '/com/stackoverflow/api/' + file4,
+                                                          '-R', 'rulesets/java/quickstart.xml', '-f', 'text'],  start_new_session=True)
+                                    p.wait(timeout=15)
 
                                     f.close()
 
-                                except:
-                                    print("Something else went wrong")
+                                except subprocess.CalledProcessError as e:
+                                    print(e)
+                                except subprocess.TimeoutExpired:
+                                    print('timeout')
+                                    f.write('test timed out \n')
+                                    os.killpg(os.getpgid(p.pid), signal.SIGTERM)
 
 
 if __name__ == '__main__':
