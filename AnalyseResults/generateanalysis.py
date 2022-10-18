@@ -27,6 +27,7 @@ def main():
                             temp_test_order = []
                             test_count = 0
                             results = []
+                            confidence_list = []
                             try:
                                 with open(
                                         '../GenerateAndRunTests/output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +

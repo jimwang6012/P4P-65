@@ -31,7 +31,7 @@ def main():
                                                               'r')
                                         lines = execution_file.readlines()
                                         for line in lines:
-                                            if line.strip().startswith('C:'):
+                                            if 'com/stackoverflow/api/SOClass.java' in line.strip():
                                                 sum += 1
 
                                         f = open('./output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
