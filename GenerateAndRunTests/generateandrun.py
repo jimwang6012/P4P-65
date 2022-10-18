@@ -85,8 +85,9 @@ def main():
 
                                         f = open(
                                             './output-rename/' + file1 + '/groups/' + file2 + '/' + placeholdername +
-                                            '/com/stackoverflow/api/' + placeholdername + 'TestResults.txt', "a", 0)
+                                            '/com/stackoverflow/api/' + placeholdername + 'TestResults.txt', "a")
                                         f.write(file4 + '\n')
+                                        f.flush()
                                         try:
                                             p = subprocess.Popen(['java', '-cp',
                                                                   './junit-4.13.2.jar:./hamcrest-core-1.3.jar'
