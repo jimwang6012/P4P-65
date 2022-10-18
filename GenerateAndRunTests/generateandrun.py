@@ -138,7 +138,7 @@ def main():
                                     p = subprocess.Popen(['./bin/run.sh', 'pmd', '-d',
                                                           './output-rename/' + file1 + '/groups/' + file2 + '/' + file3 + '/com/stackoverflow/api/' + file4,
                                                           '-R', 'rulesets/java/quickstart.xml', '-f', 'text'],
-                                                         start_new_session=True)
+                                                         start_new_session=True, stdout=f, stderr=f)
                                     p.wait(timeout=15)
 
                                     f.close()
