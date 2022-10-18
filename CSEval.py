@@ -67,10 +67,13 @@ def main():
         os.chdir('./AnalyseResults')
         generateanalysis.main()
 
-    if flag == 'list-groups':
+    if flag == '-list-groups':
         os.chdir(cwd)
         os.chdir('./GenerateAndRunTests')
         listgroups.main()
+
+    else:
+        print('Module not found')
 
 
 if __name__ == '__main__':
