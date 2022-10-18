@@ -3,7 +3,6 @@ import os.path
 import subprocess
 import json
 import signal
-import time
 
 
 def main():
@@ -89,7 +88,7 @@ def main():
                                             '/com/stackoverflow/api/' + placeholdername + 'TestResults.txt', "a")
                                         f.write(file4 + '\n')
                                         f.flush()
-                                        time.sleep(1)
+                                        os.fsync(f)
                                         try:
                                             p = subprocess.Popen(['java', '-cp',
                                                                   './junit-4.13.2.jar:./hamcrest-core-1.3.jar'
