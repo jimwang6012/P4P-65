@@ -49,13 +49,15 @@ def main():
                             test_count = 0
                             results = []
                             confidence_list = []
-                            avg_exec_time = 0.0
+                            avg_exec_time = None
                             warning_count = 0
                             try:
                                 with open(
                                         '../GenerateAndRunTests/output-rename/' + file1 + '/groups/' + file2 + '/' + file3 +
                                         '/com/stackoverflow/api/' + file3 + 'ExecutionTimeAnalysis.txt', 'r') as f:
-                                    avg_exec_time = round(float(f.readline()), 2)
+                                    first_line = f.readline()
+                                    if first_line != "test timed out":
+                                        avg_exec_time = round(float(f.readline()), 2)
                             except FileNotFoundError as e:
                                 print(e)
 
