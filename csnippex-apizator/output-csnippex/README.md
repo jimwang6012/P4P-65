@@ -1,1 +1,1 @@
-Store output of csnippex
+Store csnippex output

@@ -2,6 +2,8 @@
 input-posts/
 output-csnippex/
 output-apizator/
+output-csnippex-java/
+output-apizator-java/
 
 # PyCharm configuration files
 .idea
