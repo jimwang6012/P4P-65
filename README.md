@@ -37,7 +37,17 @@ In order to run the tool, follow these steps
 
 This tool has CLI options as follows
 
-- `-all` runs the entire process from Module A to Module C
-- .
+- `-parse-and-all` runs the entire process from `module A` to `module C`
+- `-all` runs `module B` and `module C`
+- `-parse-posts` executes the `postpaser.py` script
+- `-filter-java` executes the `deletednotrelatedposts.py` script
+- `-generate-json` executes the `jsongenerator.py` script
+- `-csnippex-apizator` executes the `runtools.py` script
+- `-group-answers` executes the `rename_and_group.py` script
+- `-generate-run-tests` executes the `generateandrun.py` script
+- `-analyse-answers` executes the `executiontime.py`, `executiontimeanalysis.py` and `staticanalysis.py` scripts
+- `-generate-analysis` executes the `generateanalysis.py` script
+- `-list-groups` executes the `listgroups.py` script
+
 
 
