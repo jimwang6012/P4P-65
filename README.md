@@ -17,6 +17,12 @@ This tool allows for the automatic execution of StackOverflow Java code snippets
 - Install Python 3.x from [here](https://www.python.org/downloads/).
 
 - Install JDK 18 from [here](https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html).
+  
+## Required Modules
+
+Numerous Python modules will need to be installed to run the tool. 
+
+- Install the modules by executing `pip install -r requirements.txt or python3 -m pip install -r requirements.txt or`
 
 ## Running the tool
 
