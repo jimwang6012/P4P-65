@@ -31,11 +31,11 @@ In order to run the tool, follow these steps
 - Open your terminal and set the working directory to ./GenerateAndRunTests.
 - Execute the commands `chmod u+r+x ./bin/pmd.bat` and `chmod u+r+x ./bin/run.sh` in the terminal to give access permission to the static analysis tools.
 - Set the working directory back to ./P4P-65
-- Execute the CLI command `python3 CSEval.py -flags` with set flags
+- Execute the CLI command `python3 CSEval.py -flag` with one of the flags
 
 ## CLI flags
 
-This tool has CLI options as follows
+This tool has CLI options as follows. One of them must be used when running the tool.
 
 - `-parse-and-all` runs the entire process from `module A` to `module C`
 - `-all` runs `module B` and `module C`
