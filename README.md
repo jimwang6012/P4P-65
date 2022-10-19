@@ -60,7 +60,7 @@ In order to run the tool, follow these steps
 
 ## CLI flags
 
-This tool has CLI options as follows
+This tool has CLI options as follows. One of them must be used when running the tool.
 
 - `-parse-and-all` runs the entire process from `module A` to `module C`
   
