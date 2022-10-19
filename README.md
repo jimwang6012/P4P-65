@@ -31,9 +31,9 @@ In order to run the tool, follow these steps
 - Open your terminal and set the working directory to ./GenerateAndRunTests.
 - Execute the commands `chmod u+r+x ./bin/pmd.bat` and `chmod u+r+x ./bin/run.sh` in the terminal to give access permission to the static analysis tools.
 - Set the working directory back to ./P4P-65
-- Execute the CLI command `...` with set flags
+- Execute the CLI command `python3 CSEval.py -flags` with set flags
 
-## CLI Options
+## CLI flags
 
 This tool has CLI options as follows
 
