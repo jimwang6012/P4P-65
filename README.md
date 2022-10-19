@@ -22,7 +22,7 @@ This tool allows for the automatic execution of StackOverflow Java code snippets
 
 Numerous Python modules will need to be installed to run the tool. 
 
-- Install the modules by executing `pip install -r requirements.txt or python3 -m pip install -r requirements.txt or`
+- Install the modules by executing `pip install -r requirements.txt or python3 -m pip install -r requirements.txt`
 
 ## Running the tool
 
