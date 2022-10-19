@@ -140,7 +140,7 @@ def main():
                                     exec_time_outliers.append(test_id)
 
                                 table_results.append([test_id] + results_dict[test_id] +
-                                                     [str(confidence_dict[test_id]) + "%"] +
+                                                     [confidence_dict[test_id]] +
                                                      [exec_time_dict[test_id]] + [warning_count_dict[test_id]])
 
                         with open('../GenerateAndRunTests/output-rename/' +
