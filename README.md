@@ -49,5 +49,14 @@ This tool has CLI options as follows
 - `-generate-analysis` executes the `generateanalysis.py` script
 - `-list-groups` executes the `listgroups.py` script
 
+## Dataset
 
+The dataset used is sourced from [here](https://archive.org/download/stackexchange).
+  
+You must download the stackoverflow.com-Posts.7z folder
 
+This dataset contains the publicly accessible StackOverflow posts as of 2022.
+
+## File requirements
+
+The stackoverflow.com-Posts.7z folder should be extracted and the posts.xml file must be placed into the ./PostParser folder
